@@ -17,8 +17,6 @@ public class App {
 
         ConfigurableApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
         App app = (App) ctx.getBean("app");
-        //app.client = new Client(1, "John Doe");
-        //app.eventLogger = new ConsoleEventLogger();
         app.logEvent(" Some event for 1");
         app.logEvent("Some event for 2");
         ctx.close();

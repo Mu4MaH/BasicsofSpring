@@ -1,4 +1,6 @@
 import org.apache.commons.io.FileUtils;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +13,8 @@ public class CacheFileEventLogger extends FileEventLogger {
 
     CacheFileEventLogger (int cacheSize) {
         super("c:\\log.txt");
+//        ApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
+//        FileEventLogger fel = (FileEventLogger) ctx.getBean("fileEventLogger");
         this.cacheSize = cacheSize;
     }
 
@@ -19,7 +23,7 @@ public class CacheFileEventLogger extends FileEventLogger {
 
         if (cache.size() == cacheSize) {
             for (Event e: cache) {
-                FileUtils.writeStringToFile(new File(filename), e.toString(), Charset.forName("UTF-8"));
+                logEvent(e);
             }
             cache.clear();
         }
@@ -28,7 +32,7 @@ public class CacheFileEventLogger extends FileEventLogger {
     public void destroy () throws IOException{
         if (!cache.isEmpty()) {
             for (Event e: cache) {
-                FileUtils.writeStringToFile(new File(filename), e.toString(), Charset.forName("UTF-8"));
+                logEvent(e);
             }
         }
     }
